@@ -1,0 +1,31 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ibmliberty
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ibmliberty
+    spec:
+      containers:
+      - name: ibmliberty
+        image: registry.bluemix.net/ibmliberty:latest
+        ports:
+        - containerPort: 9080        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ibmliberty-service
+  labels:
+    app: ibmliberty
+spec:
+  selector:
+    app: ibmliberty
+  type: NodePort
+  ports:
+   - protocol: TCP
+     port: 9080
+     nodePort: 30111
